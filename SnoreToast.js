@@ -4,6 +4,9 @@ import { intro, outro, text, select, isCancel, cancel } from '@clack/prompts';
 import chalk from "chalk";
 import figlet from "figlet";
 import notifier from "node-notifier";
+import { Command } from 'commander';
+
+const program = new Command();
 
 async function main() {
 
@@ -143,6 +146,8 @@ async function setReminder() {
 
     outro('Thank you for using My CLI App!');
 }
+
+    program.command('start').action(main);
 
     main().catch((error) => {
     console.error('An error occurred:', error);
