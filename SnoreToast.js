@@ -10,7 +10,7 @@ const program = new Command();
 
 async function main() {
 
-    intro('Welcome to SnoreToast');
+    intro('Welcome to SnoreToast!');
 
     const purpose = await select({
         message: 'What do you want today?',
@@ -35,10 +35,10 @@ async function setBreak() {
     const timing = await select({
         message: 'Take a break after: ',
         options: [
-        { value: '2', label: '30 mins' },
-        { value: '5', label: '45 mins' },
-        { value: '10', label: '1 hr' },
-        { value: '1', label: '2 hr' },
+        { value: '30', label: '30 mins' },
+        { value: '45', label: '45 mins' },
+        { value: '60', label: '1 hr' },
+        { value: '120', label: '2 hr' },
         ],
     });
 
@@ -46,8 +46,6 @@ async function setBreak() {
         cancel('Operation cancelled.');
         process.exit(0);
     }
-
-    console.log(chalk.green(`Countdown begins for break, ${timing} mins left...`));
 
     const msg1 = 'Take a Break';
     const msg2 = 'Have a Choco!';
@@ -59,7 +57,6 @@ async function setBreak() {
     const randNo = Math.floor(Math.random() * 6) + 1;
 
     const triggerReminder = () => {
-        console.clear();
 
         // Fancy ASCII banner
         figlet("⏰ BREAK TIME", (err, data) => {
@@ -82,11 +79,13 @@ async function setBreak() {
         });
     };
 
-    const timer = Number(timing) * 1000;
+    const timer = Number(timing) * 60 * 1000;
 
     setTimeout(triggerReminder, timer);
 
-    outro('Thank you for using My CLI App!');
+    outro(chalk.green(`⏳ Countdown begins for break, ${timing} mins left...`));
+
+    console.log('Thanks for using my CLI App!')
 }
 
 async function setReminder() {
@@ -107,10 +106,10 @@ async function setReminder() {
     const timing = await select({
         message: "I'll remind you after:",
         options: [
-        { value: '2', label: '30 mins' },
-        { value: '5', label: '45 mins' },
-        { value: '10', label: '1 hr' },
-        { value: '1', label: '2 hr' },
+        { value: '30', label: '30 mins' },
+        { value: '45', label: '45 mins' },
+        { value: '60', label: '1 hr' },
+        { value: '120', label: '2 hr' },
         ],
     });
 
@@ -119,10 +118,7 @@ async function setReminder() {
         process.exit(0);
     }
 
-    console.log(chalk.green(`Timer set for ${timing} minutes, Reminder: ${reminderName}`));
-
     const triggerReminder = () => {
-        console.clear();
 
         // Fancy ASCII banner
         figlet("⏰ REMINDER", (err, data) => {
@@ -138,13 +134,16 @@ async function setReminder() {
             wait: false,
             timeout: 5, // Notification disappears after 5 seconds
         });
+
     };
 
-    const timer = Number(timing) * 1000;
+    const timer = Number(timing) * 60 * 1000;
 
     setTimeout(triggerReminder, timer);
 
-    outro('Thank you for using My CLI App!');
+    outro(chalk.green(`⏳ Timer set for ${timing} minutes, Reminder: ${reminderName}`));
+
+    console.log('Thanks for using my CLI App!')
 }
 
     program.command('start').action(main);
