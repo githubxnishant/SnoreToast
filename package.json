@@ -1,5 +1,5 @@
 {
-  "name": "reminder",
+  "name": "snoretoast",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
@@ -9,6 +9,9 @@
   "keywords": [
     "cli"
   ],
+  "bin": {
+    "snoretoast": "SnoreToast.js"
+  },
   "bugs": {
     "url": "https://github.com/githubxnishant/SnoreToast/issues"
   },
