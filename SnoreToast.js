@@ -8,8 +8,8 @@ import { Command } from 'commander';
 
 const program = new Command();
 
+// Main function
 async function main() {
-
     intro('Welcome to SnoreToast!');
 
     const purpose = await select({
@@ -18,27 +18,26 @@ async function main() {
             { value: 'break', label: 'Set a Break' },
             { value: 'reminder', label: 'Set a Reminder' },
         ]
-    })
+    });
 
     if (isCancel(purpose)) {
         cancel('Operation cancelled.');
         process.exit(0);
     }
 
-    if(purpose == 'reminder') setReminder();
-
-    if(purpose == 'break') setBreak();
+    if (purpose === 'reminder') await setReminder();
+    if (purpose === 'break') await setBreak();
 }
 
+// Break Reminder
 async function setBreak() {
-
     const timing = await select({
-        message: 'Take a break after: ',
+        message: 'Take a break after:',
         options: [
-        { value: '30', label: '30 mins' },
-        { value: '45', label: '45 mins' },
-        { value: '60', label: '1 hr' },
-        { value: '120', label: '2 hr' },
+            { value: '3', label: '3 sec' },
+            { value: '45', label: '45 mins' },
+            { value: '60', label: '1 hr' },
+            { value: '120', label: '2 hr' },
         ],
     });
 
@@ -47,54 +46,46 @@ async function setBreak() {
         process.exit(0);
     }
 
-    const msg1 = 'Take a Break';
-    const msg2 = 'Have a Choco!';
-    const msg3 = 'Screen off, life on!';
-    const msg4 = 'Snacks Time!'
-    const msg5 = 'Stand up, lazy bones!';
-    const msg6 = 'Brain needs Timeout!'
-
-    const randNo = Math.floor(Math.random() * 6) + 1;
+    const messages = [
+        'Take a Break',
+        'Have a Choco!',
+        'Screen off, life on!',
+        'Snacks Time!',
+        'Stand up, lazy bones!',
+        'Brain needs Timeout!'
+    ];
+    
+    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
 
     const triggerReminder = () => {
-
-        // Fancy ASCII banner
         figlet("⏰ BREAK TIME", (err, data) => {
             if (!err) console.log(chalk.yellow(data));
-            if (randNo % 6 == 1) console.log('📢', chalk.blue.bold(`${msg1}`));
-            if (randNo % 6 == 2) console.log('📢', chalk.blue.bold(`${msg2}`));
-            if (randNo % 6 == 3) console.log('📢', chalk.blue.bold(`${msg3}`));
-            if (randNo % 6 == 4) console.log('📢', chalk.blue.bold(`${msg4}`));
-            if (randNo % 6 == 5) console.log('📢', chalk.blue.bold(`${msg5}`));
-            if (randNo % 6 == 0) console.log('📢', chalk.blue.bold(`${msg6}`));
+            console.log(chalk.blue.bold(`📢 ${randomMsg}`));
         });
 
-        // 🔔 Send a desktop notification
         notifier.notify({
             title: "⏰ Alert",
             message: "Take a break!",
-            sound: true, 
+            sound: true,
             wait: false,
-            timeout: 5, // Notification disappears after 5 seconds
+            timeout: 5, 
         });
     };
 
-    const timer = Number(timing) * 60 * 1000;
-
+    const timer = Number(timing) * 1000;
     setTimeout(triggerReminder, timer);
 
     outro(chalk.green(`⏳ Countdown begins for break, ${timing} mins left...`));
-
-    console.log('Thanks for using my CLI App!')
+    console.log('Thanks for using SnoreToast CLI Tool!')
 }
 
+// Custom Reminder
 async function setReminder() {
-
     const reminderName = await text({
-        message: 'Name your Reminder :',
+        message: 'Name your Reminder:',
         placeholder: ' Have a break, have a KitKat!',
         validate(value) {
-        if (value.length === 0) return 'Name is required!';
+            if (value.length === 0) return 'Name is required!';
         },
     });
 
@@ -106,10 +97,10 @@ async function setReminder() {
     const timing = await select({
         message: "I'll remind you after:",
         options: [
-        { value: '30', label: '30 mins' },
-        { value: '45', label: '45 mins' },
-        { value: '60', label: '1 hr' },
-        { value: '120', label: '2 hr' },
+            { value: '30', label: '30 mins' },
+            { value: '45', label: '45 mins' },
+            { value: '60', label: '1 hr' },
+            { value: '120', label: '2 hr' },
         ],
     });
 
@@ -119,36 +110,66 @@ async function setReminder() {
     }
 
     const triggerReminder = () => {
-
-        // Fancy ASCII banner
         figlet("⏰ REMINDER", (err, data) => {
             if (!err) console.log(chalk.yellow(data));
-            console.log(chalk.blue.bold(`📢 ${reminderName}`))
+            console.log(chalk.blue.bold(`📢 ${reminderName}`));
         });
 
-        // 🔔 Send a desktop notification 
         notifier.notify({
             title: "⏰ Reminder!",
-            message: `${reminderName}`,
-            sound: true, 
+            message: reminderName,
+            sound: true,
             wait: false,
-            timeout: 5, // Notification disappears after 5 seconds
+            timeout: 5,
         });
-
     };
 
     const timer = Number(timing) * 60 * 1000;
-
     setTimeout(triggerReminder, timer);
 
-    outro(chalk.green(`⏳ Timer set for ${timing} minutes, Reminder: ${reminderName}`));
-
-    console.log('Thanks for using my CLI App!')
+    outro(chalk.green(`⏳ Reminder set for ${timing} minutes: "${reminderName}"`));
+    console.log('Thanks for using SnoreToast CLI Tool!')
 }
 
-    program.command('start').action(main);
+// CLI Commands Setup
+program
+    .name("snoretoast")
+//     .description("A simple CLI tool for reminders and break notifications")
+    .version("1.0.22");
 
-    main().catch((error) => {
-    console.error('An error occurred:', error);
-    process.exit(1);
+program
+    .command("start")
+    .description("Start the SnoreToast CLI")
+    .action(main);
+
+program
+    .command("help")
+    .description("Show available commands")
+    .action(() => {
+        console.log(`
+        Usage:
+        snoretoast --version            Shows Current Version
+        snoretoast start                Start the CLI tool
+        snoretoast --help               Show help commands
+        npm uninstall -g snoretoast     Uninstall the tool globally
+        npm install -g snoretoast       Install the tool globally
+
+        - Read docs for further refernce at https://github.com/githubxnishant/SnoreToast#readme 
+        `);
     });
+
+program.exitOverride().configureOutput({
+    writeErr: (str) => {
+        if (str.includes("unknown command")) {
+            console.log(chalk.red.bold("⚠️  Invalid command! Use `snoretoast --help` to see available commands."));
+        } else {
+            console.error(str);
+        }
+    }
+});
+    
+try {
+    program.parse(process.argv);
+} catch (err) {
+    process.exit(1);
+}
