@@ -14,7 +14,7 @@ SnoreToast is a fun command-line application designed to create Windows Toast no
 
 ## Screenshots  
 
-![App Screenshot](bg.jpg)
+![App Screenshot](https://github.com/githubxnishant/SnoreToast/blob/main/bg.jpg)
 
 ## Dependencies
 

@@ -34,7 +34,7 @@ async function setBreak() {
     const timing = await select({
         message: 'Take a break after:',
         options: [
-            { value: '3', label: '3 sec' },
+            { value: '30', label: '30 mins' },
             { value: '45', label: '45 mins' },
             { value: '60', label: '1 hr' },
             { value: '120', label: '2 hr' },
@@ -72,7 +72,7 @@ async function setBreak() {
         });
     };
 
-    const timer = Number(timing) * 1000;
+    const timer = Number(timing) * 60 * 1000;
     setTimeout(triggerReminder, timer);
 
     outro(chalk.green(`⏳ Countdown begins for break, ${timing} mins left...`));
@@ -135,7 +135,7 @@ async function setReminder() {
 program
     .name("snoretoast")
 //     .description("A simple CLI tool for reminders and break notifications")
-    .version("1.0.22");
+    .version("1.0.23");
 
 program
     .command("start")
