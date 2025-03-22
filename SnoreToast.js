@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import { intro, outro, text, select, isCancel, cancel } from '@clack/prompts';
 import chalk from "chalk";
 import figlet from "figlet";
