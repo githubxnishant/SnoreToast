@@ -58,10 +58,11 @@ snoretoast help
 
 ## Social Handles  
 
-- [LinkedIn](https://www.linkedin.com/in/linkxnishant/)
+- [Portfolio](https://www.nishantchauhan.me/)
+- [LinkedIn](https://www.linkedin.com/in/nishantxchauhan/)
 - [GitHub](https://github.com/githubxnishant)
 - [Instagram](https://www.instagram.com/chauhanishant_)
-- [X](https://x.com/tweetxnishant)
+- [X](https://x.com/chauhanishant_)
 
 ## Feedback  
 
