@@ -1,10 +1,11 @@
 {
   "name": "snoretoast",
-  "version": "1.0.23",
+  "version": "1.0.232",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node snoretoast.js start"
   },
   "keywords": [
     "cli",

@@ -53,10 +53,11 @@ async function setBreak() {
         'Stand up, lazy bones!',
         'Brain needs Timeout!'
     ];
-    
+
     const randomMsg = messages[Math.floor(Math.random() * messages.length)];
 
-    const triggerReminder = () => {
+    const triggerReminder = async () => {
+        await delay(1000);
         figlet("⏰ BREAK TIME", (err, data) => {
             if (!err) console.log(chalk.yellow(data));
             console.log(chalk.blue.bold(`📢 ${randomMsg}`));
@@ -67,7 +68,7 @@ async function setBreak() {
             message: "Take a break!",
             sound: true,
             wait: false,
-            timeout: 5, 
+            timeout: 5,
         });
     };
 
@@ -75,6 +76,7 @@ async function setBreak() {
     setTimeout(triggerReminder, timer);
 
     outro(chalk.green(`⏳ Countdown begins for break, ${timing} mins left...`));
+    await workingTime(timing);
     console.log('Thanks for using SnoreToast CLI Tool!')
 }
 
@@ -108,7 +110,8 @@ async function setReminder() {
         process.exit(0);
     }
 
-    const triggerReminder = () => {
+    const triggerReminder = async () => {
+        await delay(1000);
         figlet("⏰ REMINDER", (err, data) => {
             if (!err) console.log(chalk.yellow(data));
             console.log(chalk.blue.bold(`📢 ${reminderName}`));
@@ -127,14 +130,28 @@ async function setReminder() {
     setTimeout(triggerReminder, timer);
 
     outro(chalk.green(`⏳ Reminder set for ${timing} minutes: "${reminderName}"`));
+    await workingTime(timing);
     console.log('Thanks for using SnoreToast CLI Tool!')
+}
+
+// Timer function
+async function workingTime(time) {
+    for (let i = 0; i <= time; i ++) {
+        console.log(`⚡ You have worked consistently for ${i} mins!`);
+        await delay(60 * 1000);
+    }
+}
+
+// Delay Function
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // CLI Commands Setup
 program
     .name("snoretoast")
-//     .description("A simple CLI tool for reminders and break notifications")
-    .version("1.0.23");
+    //     .description("A simple CLI tool for reminders and break notifications")
+    .version("1.0.232");
 
 program
     .command("start")
@@ -166,7 +183,7 @@ program.exitOverride().configureOutput({
         }
     }
 });
-    
+
 try {
     program.parse(process.argv);
 } catch (err) {
